@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Africanidades e Povos Originários — 3º ano</title>
+<meta name="description" content="Motion graphic do livro Africanidades e Povos Originários: História e cultura indígena, africana e afro-brasileira — 3º ano.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3ddd0;
+    --bg-2: #ead0c1;
+    --brown: #6b2e14;
+    --brown-dark: #4a1d0b;
+    --orange: #e0782a;
+    --teal: #2aa1a6;
+    --green: #2f8a46;
+    --yellow: #f1b42f;
+    --red: #c9432f;
+    --cream: #fbf3e8;
+
+    /* Dimensões do livro (proporção da capa 2600 x 3627) */
+    --w: min(44vh, 31vw);
+    --h: calc(var(--w) * 1.395);
+    --t: calc(var(--w) * 0.1);
+    --t2: calc(var(--t) / 2);
+
+    /* Linha do tempo */
+    --intro: 1.8s;
+    --loop: 12s;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    color: var(--brown);
+    background-color: var(--bg);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- FUNDO ---------- */
+  .bg {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .bg-pattern {
+    position: absolute;
+    inset: -160px 0 0 0;
+    opacity: .55;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23e2c2b0' stroke-width='5'%3E%3Cpath d='M10 90a80 80 0 0 1 160 0'/%3E%3Cpath d='M32 90a58 58 0 0 1 116 0'/%3E%3Cpath d='M54 90a36 36 0 0 1 72 0'/%3E%3C/g%3E%3Ccircle cx='90' cy='90' r='9' fill='%23e2c2b0'/%3E%3Cg fill='%23ead2c4'%3E%3Cpath d='M0 180l22-36 22 36z'/%3E%3Cpath d='M45 180l22-36 22 36z'/%3E%3Cpath d='M90 180l22-36 22 36z'/%3E%3Cpath d='M135 180l22-36 22 36z'/%3E%3C/g%3E%3Cg fill='%23e2c2b0'%3E%3Ccircle cx='22' cy='112' r='3'/%3E%3Ccircle cx='67' cy='112' r='3'/%3E%3Ccircle cx='112' cy='112' r='3'/%3E%3Ccircle cx='157' cy='112' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    animation: pattern-drift 18s linear infinite;
+  }
+
+  @keyframes pattern-drift {
+    to { transform: translateY(180px); }
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%;
+    animation: blob-morph 14s ease-in-out infinite alternate;
+  }
+
+  .blob.b1 { width: 70vmax; height: 38vmax; left: -22vmax; bottom: -22vmax; background: var(--brown); opacity: .95; }
+  .blob.b2 { width: 52vmax; height: 30vmax; right: -18vmax; bottom: -14vmax; background: #d9b29c; animation-delay: -5s; }
+  .blob.b3 { width: 38vmax; height: 24vmax; left: 18vmax; bottom: -16vmax; background: #f6e7de; animation-delay: -9s; }
+  .blob.b4 { width: 34vmax; height: 20vmax; right: -12vmax; top: -10vmax; background: #e5c4b2; opacity: .7; animation-delay: -3s; }
+
+  @keyframes blob-morph {
+    0%   { border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%; transform: translate(0, 0) rotate(0deg); }
+    50%  { border-radius: 58% 42% 38% 62% / 55% 60% 40% 45%; transform: translate(2vmax, -1vmax) rotate(4deg); }
+    100% { border-radius: 36% 64% 52% 48% / 40% 52% 48% 60%; transform: translate(-1vmax, 1vmax) rotate(-3deg); }
+  }
+
+  .swirl {
+    position: absolute;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
+    opacity: .85;
+    animation: draw 3.2s .4s cubic-bezier(.6, 0, .2, 1) forwards;
+  }
+
+  .swirl.s1 { width: 60vmax; left: -6vmax; bottom: 4vh; }
+  .swirl.s2 { width: 40vmax; right: -4vmax; top: 6vh; animation-delay: .9s; opacity: .6; }
+
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  /* Formas flutuantes */
+  .shape {
+    position: absolute;
+    opacity: 0;
+    animation:
+      pop .8s cubic-bezier(.3, 1.6, .5, 1) forwards,
+      bob 7s ease-in-out infinite;
+  }
+
+  .shape.ring { border-radius: 50%; border: 6px solid var(--brown); }
+  .shape.dot  { border-radius: 50%; }
+  .shape.tri  { width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; }
+
+  @keyframes pop {
+    from { opacity: 0; scale: 0; }
+    to   { opacity: 1; scale: 1; }
+  }
+
+  @keyframes bob {
+    0%, 100% { translate: 0 0; rotate: 0deg; }
+    50%      { translate: 0 -18px; rotate: 12deg; }
+  }
+
+  .leaf {
+    position: absolute;
+    opacity: 0;
+    transform-origin: 50% 100%;
+    animation:
+      leaf-in 1.2s cubic-bezier(.2, .9, .3, 1.2) forwards,
+      sway 6s ease-in-out infinite;
+  }
+
+  @keyframes leaf-in {
+    from { opacity: 0; scale: .2; }
+    to   { opacity: 1; scale: 1; }
+  }
+
+  @keyframes sway {
+    0%, 100% { rotate: var(--r, 0deg); }
+    50%      { rotate: calc(var(--r, 0deg) + 9deg); }
+  }
+
+  /* Faixa inferior com padrão */
+  .ribbon {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 26px;
+    background: var(--brown-dark);
+    overflow: hidden;
+    z-index: 3;
+  }
+
+  .ribbon::before {
+    content: "";
+    position: absolute;
+    inset: 0 -120px 0 0;
+    background:
+      linear-gradient(135deg, var(--orange) 25%, transparent 25%) 0 0 / 40px 26px,
+      linear-gradient(225deg, var(--teal) 25%, transparent 25%) 20px 0 / 40px 26px,
+      linear-gradient(315deg, var(--yellow) 25%, transparent 25%) 0 0 / 40px 26px,
+      linear-gradient(45deg, var(--green) 25%, transparent 25%) 20px 0 / 40px 26px;
+    animation: ribbon-run 4s linear infinite;
+  }
+
+  @keyframes ribbon-run { to { transform: translateX(-120px); } }
+
+  /* ---------- PALCO ---------- */
+  .stage {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2vw;
+    padding: 4vh 6vw 6vh;
+  }
+
+  /* ---------- LIVRO 3D ---------- */
+  .scene {
+    position: relative;
+    justify-self: center;
+    width: calc(var(--w) * 1.9);
+    height: calc(var(--h) * 1.35);
+    display: grid;
+    place-items: center;
+    perspective: 1200px;
+    perspective-origin: 50% 40%;
+  }
+
+  .tilt, .intro, .float, .book, .cover {
+    transform-style: preserve-3d;
+  }
+
+  .tilt {
+    width: var(--w);
+    height: var(--h);
+    transform: rotateY(calc(var(--mx, 0) * 14deg)) rotateX(calc(var(--my, 0) * -10deg));
+    transition: transform .6s cubic-bezier(.2, .8, .2, 1);
+  }
+
+  .intro {
+    width: 100%;
+    height: 100%;
+    animation: book-intro var(--intro) cubic-bezier(.16, .9, .22, 1) both;
+  }
+
+  @keyframes book-intro {
+    0%   { transform: translateY(75vh) rotateX(40deg) rotateZ(-14deg) scale(.55); opacity: 0; }
+    35%  { opacity: 1; }
+    100% { transform: none; opacity: 1; }
+  }
+
+  .float {
+    width: 100%;
+    height: 100%;
+    animation: float 6s var(--intro) ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-16px); }
+  }
+
+  .book {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: book-spin var(--loop) var(--intro) ease-in-out infinite both;
+  }
+
+  @keyframes book-spin {
+    0%, 22%   { transform: rotateY(-30deg) rotateX(8deg); }
+    40%, 52%  { transform: rotateY(40deg) rotateX(5deg); }
+    64%, 86%  { transform: rotateY(-8deg) rotateX(3deg); }
+    100%      { transform: rotateY(-30deg) rotateX(8deg); }
+  }
+
+  .face {
+    position: absolute;
+    backface-visibility: hidden;
+  }
+
+  /* Contracapa */
+  .back {
+    inset: 0;
+    border-radius: 6px 3px 3px 6px;
+    background: linear-gradient(120deg, var(--brown) 0%, var(--brown-dark) 100%);
+    transform: translateZ(calc(var(--t2) * -1)) rotateY(180deg);
+  }
+
+  /* Lombada */
+  .spine {
+    top: 0;
+    left: calc(var(--t2) * -1);
+    width: var(--t);
+    height: 100%;
+    transform: rotateY(-90deg);
+    border-radius: 3px;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.35) 0%, rgba(255,255,255,.12) 30%, rgba(255,255,255,.04) 55%, rgba(0,0,0,.4) 100%),
+      var(--brown);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: calc(var(--t) * .5) 0;
+    overflow: hidden;
+  }
+
+  .spine-title {
+    writing-mode: vertical-rl;
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 800;
+    font-size: calc(var(--t) * .42);
+    letter-spacing: .04em;
+    line-height: 1;
+    color: var(--cream);
+    white-space: nowrap;
+  }
+
+  .spine-title b { color: var(--yellow); font-weight: 800; }
+
+  .spine-grade {
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 800;
+    font-size: calc(var(--t) * .34);
+    color: var(--brown);
+    background: var(--yellow);
+    border-radius: 999px;
+    padding: 2px 4px 0;
+    line-height: 1.1;
+  }
+
+  .spine-band {
+    width: 100%;
+    height: calc(var(--t) * .5);
+    background: repeating-linear-gradient(90deg, var(--green) 0 25%, var(--red) 25% 50%, var(--yellow) 50% 75%, var(--teal) 75% 100%);
+  }
+
+  /* Bordas das páginas */
+  .edge-right {
+    top: 4px;
+    left: calc(var(--w) - var(--t2) - 3px);
+    width: var(--t);
+    height: calc(100% - 8px);
+    transform: rotateY(90deg);
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.18), rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,.18)),
+      repeating-linear-gradient(90deg, #fffaf1 0 2px, #e9dccb 2px 3px);
+  }
+
+  .edge-top, .edge-bottom {
+    left: 2px;
+    width: calc(100% - 6px);
+    height: var(--t);
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,0) 25%, rgba(0,0,0,0) 75%, rgba(0,0,0,.15)),
+      repeating-linear-gradient(180deg, #fffaf1 0 2px, #e9dccb 2px 3px);
+  }
+
+  .edge-top    { top: calc(var(--t2) * -1); transform: rotateX(90deg); }
+  .edge-bottom { top: calc(var(--h) - var(--t2)); transform: rotateX(-90deg); }
+
+  /* Primeira página (revelada quando a capa abre) */
+  .first-page {
+    top: 3px;
+    left: 0;
+    width: calc(100% - 4px);
+    height: calc(100% - 6px);
+    transform: translateZ(calc(var(--t2) - 1px));
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 10%),
+      var(--cream);
+    border-radius: 0 3px 3px 0;
+    padding: 14% 12%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .6em;
+    text-align: center;
+    font-size: calc(var(--w) * .05);
+  }
+
+  .first-page .fp-kicker {
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-size: .8em;
+  }
+
+  .first-page .fp-title {
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 800;
+    line-height: 1;
+    font-size: 1.9em;
+    color: var(--brown);
+  }
+
+  .first-page .fp-line {
+    width: 40%;
+    height: 4px;
+    margin: .4em auto;
+    background: repeating-linear-gradient(90deg, var(--green) 0 25%, var(--red) 25% 50%, var(--yellow) 50% 75%, var(--teal) 75% 100%);
+    border-radius: 2px;
+  }
+
+  .first-page .fp-text {
+    color: #8a5a43;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  /* Capa (com dobradiça) */
+  .cover {
+    position: absolute;
+    inset: 0;
+    transform-origin: left center;
+    animation: cover-open var(--loop) var(--intro) ease-in-out infinite both;
+  }
+
+  @keyframes cover-open {
+    0%, 66%  { transform: translateZ(var(--t2)) rotateY(0deg); }
+    74%, 80% { transform: translateZ(var(--t2)) rotateY(-68deg); }
+    88%, 100%{ transform: translateZ(var(--t2)) rotateY(0deg); }
+  }
+
+  .cover-front, .cover-inside {
+    position: absolute;
+    inset: 0;
+    border-radius: 3px 6px 6px 3px;
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+
+  .cover-front img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Vinco da capa dura + volume */
+  .cover-front::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(90deg,
+        rgba(0,0,0,.32) 0%,
+        rgba(255,255,255,.28) 1.2%,
+        rgba(0,0,0,.18) 2.6%,
+        rgba(255,255,255,.12) 4%,
+        rgba(0,0,0,0) 7%,
+        rgba(0,0,0,0) 92%,
+        rgba(0,0,0,.12) 100%);
+  }
+
+  /* Brilho que percorre a capa */
+  .sheen {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 60%);
+    background-size: 300% 100%;
+    background-position: 120% 0;
+    mix-blend-mode: soft-light;
+    animation: sheen var(--loop) var(--intro) ease-in-out infinite both;
+  }
+
+  @keyframes sheen {
+    0%, 4%    { background-position: 120% 0; }
+    16%, 88%  { background-position: -20% 0; }
+    88.01%    { background-position: 120% 0; }
+    100%      { background-position: -20% 0; }
+  }
+
+  .cover-inside {
+    transform: rotateY(180deg);
+    border-radius: 6px 3px 3px 6px;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%23c99a7f' stroke-width='3'%3E%3Cpath d='M5 30a25 25 0 0 1 50 0'/%3E%3Cpath d='M17 30a13 13 0 0 1 26 0'/%3E%3C/g%3E%3Cpath d='M0 60l10-16 10 16zM20 60l10-16 10 16zM40 60l10-16 10 16z' fill='%23c99a7f'/%3E%3C/svg%3E") 0 0 / 30px 30px,
+      #e7c6b2;
+  }
+
+  /* Sombra no chão */
+  .shadow {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + var(--h) / 2 + var(--h) * .06);
+    width: calc(var(--w) * 1.25);
+    height: calc(var(--w) * .16);
+    translate: -50% 0;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(74, 29, 11, .45), rgba(74, 29, 11, 0));
+    filter: blur(4px);
+    opacity: 0;
+    animation:
+      fade-in .8s calc(var(--intro) - .6s) forwards,
+      shadow-pulse 6s var(--intro) ease-in-out infinite;
+  }
+
+  @keyframes fade-in { to { opacity: 1; } }
+
+  @keyframes shadow-pulse {
+    0%, 100% { scale: 1; }
+    50%      { scale: .86; opacity: .75; }
+  }
+
+  /* ---------- TEXTO ---------- */
+  .copy {
+    max-width: 46vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.6vh;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: .6em;
+    padding: .55em 1.4em .5em 1em;
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 800;
+    font-size: clamp(.85rem, 1.6vh, 1.4rem);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--brown);
+    clip-path: polygon(0 0, 100% 0, 94% 50%, 100% 100%, 0 100%);
+    opacity: 0;
+    animation: slide-in .7s .5s cubic-bezier(.2, .9, .3, 1) forwards;
+  }
+
+  .tag i {
+    width: 1.1em;
+    height: .8em;
+    background: repeating-linear-gradient(180deg, var(--cream) 0 2px, transparent 2px 4px);
+  }
+
+  .title {
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 800;
+    line-height: .95;
+    font-size: clamp(2.4rem, 8.4vh, 7rem);
+    letter-spacing: -.01em;
+    color: var(--brown);
+  }
+
+  .title .line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: .06em;
+  }
+
+  .title .word {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: rise .9s cubic-bezier(.2, .9, .2, 1) forwards;
+  }
+
+  .title .accent {
+    background: linear-gradient(90deg, var(--orange), var(--red) 45%, var(--orange) 70%, var(--yellow));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation:
+      rise .9s cubic-bezier(.2, .9, .2, 1) forwards,
+      gradient-run 6s linear infinite;
+  }
+
+  .title .line:nth-child(1) .word { animation-delay: .7s; }
+  .title .line:nth-child(2) .word { animation-delay: .85s, 0s; }
+  .title .line:nth-child(3) .word { animation-delay: 1s, 0s; }
+
+  @keyframes rise { to { transform: translateY(0); } }
+  @keyframes gradient-run { to { background-position: -200% 0; } }
+
+  .subtitle {
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 3vh, 2.5rem);
+    line-height: 1.15;
+    color: #8b4a2a;
+    opacity: 0;
+    animation: fade-up .8s 1.35s cubic-bezier(.2, .9, .3, 1) forwards;
+  }
+
+  .stripe {
+    width: 0;
+    height: 8px;
+    border-radius: 4px;
+    background: repeating-linear-gradient(90deg, var(--green) 0 22px, var(--red) 22px 44px, var(--yellow) 44px 66px, var(--teal) 66px 88px);
+    animation: grow 1s 1.25s cubic-bezier(.6, 0, .2, 1) forwards;
+  }
+
+  @keyframes grow { to { width: min(320px, 60%); } }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.2vh 1vw;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 800;
+    font-size: clamp(.95rem, 2.3vh, 2rem);
+    line-height: 1;
+    padding: .55em 1.1em .45em;
+    border-radius: 999px;
+    opacity: 0;
+    animation: pop-chip .7s cubic-bezier(.3, 1.6, .5, 1) forwards;
+  }
+
+  .chip.grade { background: var(--brown); color: var(--cream); animation-delay: 1.6s; }
+  .chip.bncc  { background: var(--yellow); color: var(--brown); border: 3px dashed rgba(255,255,255,.75); animation-delay: 1.75s; }
+  .chip.bncc svg { width: 1.1em; height: 1.1em; }
+
+  @keyframes pop-chip {
+    from { opacity: 0; transform: scale(.4) translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .author {
+    display: flex;
+    align-items: center;
+    gap: .8em;
+    font-size: clamp(.9rem, 1.9vh, 1.6rem);
+    font-weight: 600;
+    color: #8b4a2a;
+    opacity: 0;
+    animation: fade-up .8s 1.95s cubic-bezier(.2, .9, .3, 1) forwards;
+  }
+
+  .author svg { width: 2.2em; height: 2.2em; flex: none; }
+  .author small { display: block; font-size: .78em; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); }
+  .author strong { font-family: "Baloo 2", sans-serif; font-size: 1.25em; font-weight: 800; color: var(--brown); line-height: 1.1; }
+
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ---------- RETRATO / CELULAR ---------- */
+  @media (max-aspect-ratio: 1/1) {
+    :root {
+      --w: min(48vw, 30vh);
+    }
+
+    .stage {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      align-content: center;
+      gap: 1vh;
+      padding: 4vh 16px 6vh;
+    }
+
+    .scene { height: calc(var(--h) * 1.25); }
+
+    .copy {
+      max-width: none;
+      align-items: center;
+      text-align: center;
+      gap: 2vh;
+    }
+
+    .title { font-size: clamp(2rem, 9.6vw, 7rem); }
+    .subtitle { font-size: clamp(1rem, 4.6vw, 2.6rem); }
+    .chips { justify-content: center; }
+    .chip { font-size: clamp(.9rem, 3.6vw, 2.2rem); }
+    .author { font-size: clamp(.85rem, 3vw, 1.8rem); text-align: left; }
+    .tag { font-size: clamp(.8rem, 2.6vw, 1.6rem); }
+
+    /* Fundo reposicionado para não cobrir o texto */
+    .blob.b1 { top: -12vmax; bottom: auto; left: -34vmax; width: 66vmax; height: 34vmax; }
+    .blob.b2 { right: -30vmax; bottom: -20vmax; width: 60vmax; height: 26vmax; }
+    .blob.b3 { left: -20vmax; bottom: -19vmax; width: 50vmax; height: 24vmax; }
+    .swirl.s1 { width: 90vw; left: -10vw; top: 22vh; bottom: auto; }
+    .swirl.s2 { display: none; }
+    .hide-portrait { display: none; }
+    .leaf.l1 { left: -5vw !important; bottom: auto !important; top: 34vh; width: 17vw !important; }
+    .leaf.l2 { right: -3vw !important; bottom: 2vh !important; width: 16vw !important; }
+    .leaf.l3 { right: -4vw !important; top: 8vh !important; width: 18vw !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- FUNDO -->
+<div class="bg" aria-hidden="true">
+  <div class="bg-pattern"></div>
+  <div class="blob b4"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="blob b1"></div>
+
+  <svg class="swirl s1" viewBox="0 0 600 240"><path d="M10 200 C120 60 220 240 320 140 S520 20 590 110"/></svg>
+  <svg class="swirl s2" viewBox="0 0 400 200"><path d="M390 20 C300 60 330 160 220 150 S60 60 10 180"/></svg>
+
+  <span class="shape ring" style="width:54px;height:54px;left:8vw;top:12vh;animation-delay:.6s,0s"></span>
+  <span class="shape ring hide-portrait" style="width:30px;height:30px;right:10vw;top:62vh;border-color:var(--orange);animation-delay:1.1s,-2s"></span>
+  <span class="shape dot"  style="width:18px;height:18px;left:44vw;top:9vh;background:var(--teal);animation-delay:.9s,-4s"></span>
+  <span class="shape dot hide-portrait"  style="width:12px;height:12px;right:30vw;bottom:16vh;background:var(--green);animation-delay:1.3s,-1s"></span>
+  <span class="shape tri"  style="right:6vw;top:22vh;border-bottom:30px solid var(--brown);animation-delay:1s,-3s"></span>
+  <span class="shape tri hide-portrait"  style="left:38vw;bottom:24vh;border-bottom:30px solid #b07a50;animation-delay:1.4s,-5s"></span>
+  <span class="shape tri hide-portrait"  style="left:4vw;top:52vh;border-bottom:30px solid var(--orange);rotate:180deg;animation-delay:1.2s,-2.5s"></span>
+
+  <!-- Folhas -->
+  <svg class="leaf l1" style="width:13vmax;left:-2vmax;bottom:6vh;--r:-25deg;animation-delay:.8s,0s" viewBox="0 0 120 140"><use href="#leaf"/></svg>
+  <svg class="leaf l2" style="width:11vmax;right:2vmax;bottom:-2vh;--r:20deg;animation-delay:1.1s,-2s" viewBox="0 0 120 140"><use href="#leaf"/></svg>
+  <svg class="leaf l3" style="width:9vmax;right:-2vmax;top:30vh;--r:-60deg;animation-delay:1.3s,-4s" viewBox="0 0 120 140"><use href="#leaf"/></svg>
+
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <mask id="leaf-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="140">
+        <path fill="#fff" d="M60 4C96 14 116 48 112 82 108 112 86 130 60 136 34 130 12 112 8 82 4 48 24 14 60 4Z"/>
+        <g stroke="#000" stroke-width="7" stroke-linecap="round">
+          <path d="M-4 36 L46 54"/><path d="M124 36 L74 54"/>
+          <path d="M-4 72 L44 84"/><path d="M124 72 L76 84"/>
+          <path d="M4 112 L46 112"/><path d="M116 112 L74 112"/>
+        </g>
+        <g fill="#000"><ellipse cx="38" cy="66" rx="4" ry="6"/><ellipse cx="82" cy="66" rx="4" ry="6"/><ellipse cx="40" cy="98" rx="3.5" ry="5"/><ellipse cx="80" cy="98" rx="3.5" ry="5"/></g>
+      </mask>
+      <g id="leaf">
+        <path fill="#2f8a46" mask="url(#leaf-cut)" d="M60 4C96 14 116 48 112 82 108 112 86 130 60 136 34 130 12 112 8 82 4 48 24 14 60 4Z"/>
+        <path d="M60 12 V138" stroke="#24703a" stroke-width="4" stroke-linecap="round" fill="none"/>
+      </g>
+    </defs>
+  </svg>
+</div>
+
+<!-- PALCO -->
+<main class="stage">
+  <div class="scene" id="scene">
+    <div class="tilt" id="tilt">
+      <div class="intro">
+        <div class="float">
+          <div class="book" role="img" aria-label="Livro Africanidades e Povos Originários — 3º ano, em 3D">
+            <div class="face back"></div>
+
+            <div class="face spine">
+              <span class="spine-band"></span>
+              <span class="spine-title">AFRICANIDADES <b>E</b> POVOS ORIGINÁRIOS</span>
+              <span class="spine-grade">3º</span>
+            </div>
+
+            <div class="face edge-right"></div>
+            <div class="face edge-top"></div>
+            <div class="face edge-bottom"></div>
+
+            <div class="face first-page">
+              <span class="fp-kicker">Livro do Professor</span>
+              <span class="fp-title">Africanidades e Povos Originários</span>
+              <span class="fp-line"></span>
+              <span class="fp-text">História e cultura indígena, africana e afro-brasileira</span>
+            </div>
+
+            <div class="cover">
+              <div class="cover-front">
+                <img src="capa.jpg" alt="">
+                <div class="sheen"></div>
+              </div>
+              <div class="cover-inside"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="shadow"></div>
+  </div>
+
+  <section class="copy">
+    <span class="tag"><i></i>Livro do Professor</span>
+
+    <h1 class="title">
+      <span class="line"><span class="word">Africanidades</span></span>
+      <span class="line"><span class="word">e Povos</span></span>
+      <span class="line"><span class="word accent">Originários</span></span>
+    </h1>
+
+    <span class="stripe"></span>
+
+    <p class="subtitle">História e cultura indígena,<br>africana e afro-brasileira</p>
+
+    <div class="chips">
+      <span class="chip grade">3º ano</span>
+      <span class="chip bncc">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+        Alinhado à BNCC
+      </span>
+    </div>
+
+    <div class="author">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l14 4 6 16-10 10-16-6-4-14z"/><circle cx="20" cy="20" r="3"/><path d="M22 22l-14 14"/><path d="M6 42h28"/></svg>
+      <span><small>Autora</small><strong>Alana Silva Moreira Lopes</strong></span>
+    </div>
+  </section>
+</main>
+
+<div class="ribbon" aria-hidden="true"></div>
+
+<script>
+  // Inclinação do livro acompanhando o mouse / toque (desligada no modo de gravação ?record)
+  (function () {
+    if (new URLSearchParams(location.search).has('record')) return;
+    var tilt = document.getElementById('tilt');
+    function move(x, y) {
+      tilt.style.setProperty('--mx', ((x / innerWidth) * 2 - 1).toFixed(3));
+      tilt.style.setProperty('--my', ((y / innerHeight) * 2 - 1).toFixed(3));
+    }
+    addEventListener('pointermove', function (e) { move(e.clientX, e.clientY); });
+    document.addEventListener('pointerleave', function () {
+      tilt.style.setProperty('--mx', 0);
+      tilt.style.setProperty('--my', 0);
+    });
+  })();
+</script>
+</body>
+</html>
